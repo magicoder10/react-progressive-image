@@ -20,7 +20,7 @@ import {ProgressiveImage} from './components/ProgressiveImage';
 
 ```javascript
  <ProgressiveImage
- 	thumbnailSrc={photoThumbnail}
+   thumbnailSrc={photoThumbnail}
    imageSrc={photo}
    
    onImageEnterViewport={this.handleImageEnterViewport}
