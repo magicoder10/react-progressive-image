@@ -1,0 +1,28 @@
+.progressive-image {
+  background-color: gray;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail, .full-image {
+  display: block;
+  width: 100%;
+  transform: scale(1.1);
+}
+
+.full-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.thumbnail {
+  position: relative;
+  z-index: 1;
+  filter: blur(14px);
+  transition: opacity 600ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.hide {
+  opacity: 0;
+}
