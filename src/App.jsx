@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import './App.scss';
-import {ProgressiveImage} from "./components/ProgressiveImage";
 
 import photo from './photo.jpg';
 import photoThumbnail from './photo-thumbnail.jpg';
+
+import {ProgressiveImage} from "./components/ProgressiveImage";
 
 class App extends Component {
     handleImageLoadingError = (imageUrl) => {

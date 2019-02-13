@@ -32,6 +32,11 @@ export class ProgressiveImage extends Component {
         window.addEventListener('resize', this.handleResize);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.handleResize);
+    }
+
     handleResize = () => {
         this._adjustViewport();
     };
