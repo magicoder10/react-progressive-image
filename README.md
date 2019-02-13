@@ -9,10 +9,9 @@ Progressive image loading component for React
 - Progressively load image with animation
 
 ## Future plan
-- Build a website to help people generate thumbnail image from the original one.
-- Provide hosting service for both images.
+- Build a website to help people generate thumbnail from the original image.
+- Provide hosting service for both image assets.
 - Generate React & Angular progressive image loading code based on the hosted URLs.
-- Provide REST & GraphQl API for thumbnail generation.
 
 ## Usage
 
