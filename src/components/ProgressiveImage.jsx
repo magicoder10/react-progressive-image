@@ -19,14 +19,18 @@ export class ProgressiveImage extends Component {
     }
 
     componentDidMount() {
-        this._loadImageAsync(this.props.thumbnailSrc)
-            .then((imageURL) => {
-                this.setState({
-                    isThumbnailLoaded: true,
-                    thumbnailSrc: imageURL
+        if(this.props.thumbnailSrc) {
+            this._loadImageAsync(this.props.thumbnailSrc)
+                .then((imageURL) => {
+                    this.setState({
+                        isThumbnailLoaded: true,
+                        thumbnailSrc: imageURL
+                    });
+                    this._tryLoadFullImage();
                 });
-                this._tryLoadFullImage();
-            });
+        } else {
+            this._tryLoadFullImage();
+        }
 
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('resize', this.handleResize);
