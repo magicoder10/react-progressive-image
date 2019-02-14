@@ -1,12 +1,12 @@
-import {Observable} from "rxjs";
-import {RefObject} from "react";
+import {Observable} from 'rxjs';
+import {RefObject} from 'react';
 
 export interface ViewportEventEmitter {
-    onEnterViewport(): Observable<void>
+	onEnterViewport(): Observable<void>
 
-    onLeaveViewport(): Observable<void>
+	onLeaveViewport(): Observable<void>
 }
 
 export interface Viewport {
-    for(el: RefObject<Element>): ViewportEventEmitter
+	for(el: RefObject<Element>): ViewportEventEmitter
 }
