@@ -6,11 +6,11 @@ import photoThumbnail from './photo-thumbnail.jpg';
 
 import {ProgressiveImage} from "./components/ProgressiveImage";
 import {BrowserImageLoader} from "./loaders/image.loader.broswer";
-import {ViewportBrowser} from "./viewports/viewport.browser";
+import {BrowserViewport} from "./viewports/viewport.browser";
 
 class App extends Component {
     imageLoader = new BrowserImageLoader();
-    viewport = new ViewportBrowser();
+    viewport = new BrowserViewport();
 
     handleImageLoadingError = (imageUrl: string) => {
         this.log(`Fail to load ${imageUrl}`);

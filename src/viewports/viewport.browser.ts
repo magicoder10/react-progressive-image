@@ -12,7 +12,7 @@ function isVisible(el: Element): boolean {
     return elViewportY <= viewportHeight;
 }
 
-export class ViewportBrowser implements Viewport {
+export class BrowserViewport implements Viewport {
     private _onScrollSubject: Subject<void> = new Subject();
 
     constructor() {
