@@ -2,8 +2,10 @@ import React, {createRef, Component, RefObject} from 'react';
 import classNames from 'classnames';
 
 import styles from './ProgressiveImage.module.scss';
+import {ImageLoader} from "../loaders/image.loader";
 
 interface Props {
+    imageLoader: ImageLoader
     thumbnailSrc?: string
     alt: string
     imageSrc: string
@@ -42,9 +44,8 @@ export class ProgressiveImage extends Component<Props, State> {
 
     componentDidMount() {
         if (this.props.thumbnailSrc) {
-            this._loadImageAsync(this.props.thumbnailSrc)
+            this.props.imageLoader.loadAsync(this.props.thumbnailSrc)
                 .then((imageURL: string) => {
-
                     this.setState({
                         isThumbnailLoaded: true,
                         thumbnailSrc: imageURL
@@ -118,7 +119,7 @@ export class ProgressiveImage extends Component<Props, State> {
     };
 
     _loadFullImage = () => {
-        this._loadImageAsync(this.props.imageSrc)
+        this.props.imageLoader.loadAsync(this.props.imageSrc)
             .then((imageURL) => {
                 this.setState({
                     isFullImageLoaded: true,
@@ -150,22 +151,6 @@ export class ProgressiveImage extends Component<Props, State> {
         const elViewportY = elViewportOffset.top;
         return elViewportY <= viewportHeight;
     };
-
-    _loadImageAsync(imageURL: string) {
-        return new Promise((resolve: ((imageUrl: string) => void), reject) => {
-            const image = new Image();
-
-            image.addEventListener('load', () => {
-                resolve(imageURL);
-            });
-
-            image.addEventListener('error', () => {
-                reject(imageURL);
-            });
-
-            image.src = imageURL;
-        });
-    }
 
     render() {
         const {
