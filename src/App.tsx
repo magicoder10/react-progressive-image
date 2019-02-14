@@ -7,7 +7,7 @@ import photoThumbnail from './photo-thumbnail.jpg';
 import {ProgressiveImage} from "./components/ProgressiveImage";
 
 class App extends Component {
-    handleImageLoadingError = (imageUrl) => {
+    handleImageLoadingError = (imageUrl: string) => {
         this.log(`Fail to load ${imageUrl}`);
     };
 
@@ -23,11 +23,11 @@ class App extends Component {
         this.log('Image is loaded');
     };
 
-    toTime(date) {
+    toTime(date: Date) {
         return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     }
 
-    log(message) {
+    log(message: string) {
         console.log(`${this.toTime(new Date())} ${message}`)
     }
 
@@ -39,6 +39,7 @@ class App extends Component {
                 <div className='progressive-image-wrapper'>
 
                     <ProgressiveImage
+                        alt={'Test'}
                         thumbnailSrc={photoThumbnail}
                         imageSrc={photo}
                         onImageEnterViewport={this.handleImageEnterViewport}

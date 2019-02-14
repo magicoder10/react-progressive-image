@@ -1,10 +1,31 @@
-import React, {createRef, Component} from 'react';
+import React, {createRef, Component, RefObject} from 'react';
 import classNames from 'classnames';
 
 import styles from './ProgressiveImage.module.scss';
 
-export class ProgressiveImage extends Component {
-    constructor(props) {
+interface Props {
+    thumbnailSrc?: string
+    alt: string
+    imageSrc: string
+    onImageLeaveViewport?: () => void
+    onImageEnterViewport?: () => void
+    onImageLoad?: () => void
+    onImageLoadingError?: (imageUrl: string) => void
+}
+
+interface State {
+    isThumbnailLoaded?: boolean
+    isFullImageLoaded?: boolean
+    isLoadingImage?: boolean
+    enterViewport?: boolean
+    fullImageSrc?: string
+    thumbnailSrc?: string
+}
+
+export class ProgressiveImage extends Component<Props, State> {
+    readonly _elRef: RefObject<HTMLDivElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this._elRef = createRef();
@@ -14,14 +35,16 @@ export class ProgressiveImage extends Component {
             isFullImageLoaded: false,
             isLoadingImage: false,
             enterViewport: false,
-            fullImageSrc: null
+            fullImageSrc: '',
+            thumbnailSrc: ''
         }
     }
 
     componentDidMount() {
-        if(this.props.thumbnailSrc) {
+        if (this.props.thumbnailSrc) {
             this._loadImageAsync(this.props.thumbnailSrc)
-                .then((imageURL) => {
+                .then((imageURL: string) => {
+
                     this.setState({
                         isThumbnailLoaded: true,
                         thumbnailSrc: imageURL
@@ -52,8 +75,10 @@ export class ProgressiveImage extends Component {
     _adjustViewport = () => {
         if (!this._isInViewport()) {
 
-            if (this.enterViewport) {
-                this.enterViewport = false;
+            if (this.state.enterViewport) {
+                this.setState({
+                    enterViewport: false
+                });
 
                 if (this.props.onImageLeaveViewport) {
                     this.props.onImageLeaveViewport();
@@ -62,8 +87,10 @@ export class ProgressiveImage extends Component {
             return;
         }
 
-        if (!this.enterViewport) {
-            this.enterViewport = true;
+        if (!this.state.enterViewport) {
+            this.setState({
+                enterViewport: true
+            });
 
             if (this.props.onImageEnterViewport) {
                 this.props.onImageEnterViewport();
@@ -79,11 +106,13 @@ export class ProgressiveImage extends Component {
             return;
         }
 
-        if (this.isLoadingImage) {
+        if (this.state.isLoadingImage) {
             return;
         }
 
-        this.isLoadingImage = true;
+        this.setState({
+            isLoadingImage: true
+        });
 
         this._loadFullImage();
     };
@@ -96,7 +125,9 @@ export class ProgressiveImage extends Component {
                     fullImageSrc: imageURL
                 });
 
-                this.isLoadingImage = false;
+                this.setState({
+                    isLoadingImage: false
+                });
 
                 if (this.props.onImageLoad) {
                     this.props.onImageLoad();
@@ -109,16 +140,19 @@ export class ProgressiveImage extends Component {
     };
 
     _isInViewport = () => {
+        if (!this._elRef || !this._elRef.current) {
+            return false;
+        }
+
         const viewportHeight = window.document.documentElement.clientHeight;
 
         const elViewportOffset = this._elRef.current.getBoundingClientRect();
         const elViewportY = elViewportOffset.top;
-
         return elViewportY <= viewportHeight;
     };
 
-    _loadImageAsync(imageURL) {
-        return new Promise((resolve, reject) => {
+    _loadImageAsync(imageURL: string) {
+        return new Promise((resolve: ((imageUrl: string) => void), reject) => {
             const image = new Image();
 
             image.addEventListener('load', () => {
@@ -143,7 +177,9 @@ export class ProgressiveImage extends Component {
         }
 
         return (
-            <div ref={this._elRef} className={styles['progressive-image']}>
+            <div
+                ref={this._elRef}
+                className={styles['progressive-image']}>
                 <img
                     className={classNames({
                         [styles['thumbnail']]: true,
