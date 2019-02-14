@@ -26,13 +26,13 @@ import {ProgressiveImage} from './components/ProgressiveImage';
 
 ```javascript
  <ProgressiveImage
-   thumbnailSrc={photoThumbnail}
-   imageSrc={photo}
-   
-   onImageEnterViewport={this.handleImageEnterViewport}
-   onImageLeaveViewport={this.handleImageLeaveViewport}
-   onImageLoad={this.handleImageLoad}
-   onImageLoadingError={this.handleImageLoadingError}
+    alt={'Test'}
+    thumbnailSrc={photoThumbnail}
+    imageSrc={photo}
+    onImageEnterViewport={this.handleImageEnterViewport}
+    onImageLeaveViewport={this.handleImageLeaveViewport}
+    onImageLoad={this.handleImageLoad}
+    onImageLoadingError={this.handleImageLoadingError}
  />
 ```
 
