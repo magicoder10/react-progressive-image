@@ -20,18 +20,19 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.8.1",
-    "react-dom": "^16.8.1"
+    "react-dom": "^16.8.1",
+    "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.9.1",
-    "node-sass": "^4.11.0",
-    "react-scripts": "2.1.5",
-    "typescript": "^3.3.3",
+    "@types/classnames": "^2.2.7",
     "@types/jest": "^24.0.4",
     "@types/node": "^11.9.4",
     "@types/react": "^16.8.3",
     "@types/react-dom": "^16.8.1",
-    "@types/classnames": "^2.2.7"
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "node-sass": "^4.11.0",
+    "react-scripts": "2.1.5",
+    "typescript": "^3.3.3"
   }
 }
