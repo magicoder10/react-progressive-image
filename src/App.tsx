@@ -6,9 +6,11 @@ import photoThumbnail from './photo-thumbnail.jpg';
 
 import {ProgressiveImage} from "./components/ProgressiveImage";
 import {BrowserImageLoader} from "./loaders/image.loader.broswer";
+import {ViewportBrowser} from "./viewports/viewport.browser";
 
 class App extends Component {
     imageLoader = new BrowserImageLoader();
+    viewport = new ViewportBrowser();
 
     handleImageLoadingError = (imageUrl: string) => {
         this.log(`Fail to load ${imageUrl}`);
@@ -42,10 +44,13 @@ class App extends Component {
                 <div className='progressive-image-wrapper'>
 
                     <ProgressiveImage
-                        alt={'Test'}
+                        viewport={this.viewport}
                         imageLoader={this.imageLoader}
+
+                        alt={'Test'}
                         thumbnailSrc={photoThumbnail}
                         imageSrc={photo}
+
                         onImageEnterViewport={this.handleImageEnterViewport}
                         onImageLeaveViewport={this.handleImageLeaveViewport}
                         onImageLoad={this.handleImageLoad}

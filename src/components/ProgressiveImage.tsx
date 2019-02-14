@@ -3,8 +3,12 @@ import classNames from 'classnames';
 
 import styles from './ProgressiveImage.module.scss';
 import {ImageLoader} from "../loaders/image.loader";
+import {Viewport} from "../viewports/viewport";
+import {filter, tap} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 interface Props {
+    viewport: Viewport,
     imageLoader: ImageLoader
     thumbnailSrc?: string
     alt: string
@@ -19,13 +23,14 @@ interface State {
     isThumbnailLoaded?: boolean
     isFullImageLoaded?: boolean
     isLoadingImage?: boolean
-    enterViewport?: boolean
     fullImageSrc?: string
     thumbnailSrc?: string
 }
 
 export class ProgressiveImage extends Component<Props, State> {
     readonly _elRef: RefObject<HTMLDivElement>;
+    onEnterViewportSubscription: Subscription;
+    onLeaveViewportSubscription: Subscription;
 
     constructor(props: Props) {
         super(props);
@@ -36,13 +41,35 @@ export class ProgressiveImage extends Component<Props, State> {
             isThumbnailLoaded: false,
             isFullImageLoaded: false,
             isLoadingImage: false,
-            enterViewport: false,
             fullImageSrc: '',
             thumbnailSrc: ''
-        }
+        };
+
+        const eventEmitter = this.props.viewport.for(this._elRef);
+
+        this.onEnterViewportSubscription = eventEmitter
+            .onEnterViewport()
+            .pipe(
+                tap(this.props.onImageEnterViewport),
+                filter(() => !this.state.isFullImageLoaded && !this.state.isLoadingImage)
+            )
+            .subscribe(this._loadFullImage);
+
+        this.onLeaveViewportSubscription = eventEmitter
+            .onLeaveViewport()
+            .subscribe(this.props.onImageLeaveViewport);
     }
 
     componentDidMount() {
+        this.tryLoadThumbnail();
+    }
+
+    componentWillUnmount() {
+        this.onEnterViewportSubscription.unsubscribe();
+        this.onLeaveViewportSubscription.unsubscribe();
+    }
+
+    tryLoadThumbnail() {
         if (this.props.thumbnailSrc) {
             this.props.imageLoader.loadAsync(this.props.thumbnailSrc)
                 .then((imageURL: string) => {
@@ -50,75 +77,15 @@ export class ProgressiveImage extends Component<Props, State> {
                         isThumbnailLoaded: true,
                         thumbnailSrc: imageURL
                     });
-                    this._tryLoadFullImage();
-                });
-        } else {
-            this._tryLoadFullImage();
+                })
         }
-
-        window.addEventListener('scroll', this.handleScroll);
-        window.addEventListener('resize', this.handleResize);
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    handleResize = () => {
-        this._adjustViewport();
-    };
-
-    handleScroll = () => {
-        this._adjustViewport();
-    };
-
-    _adjustViewport = () => {
-        if (!this._isInViewport()) {
-
-            if (this.state.enterViewport) {
-                this.setState({
-                    enterViewport: false
-                });
-
-                if (this.props.onImageLeaveViewport) {
-                    this.props.onImageLeaveViewport();
-                }
-            }
-            return;
-        }
-
-        if (!this.state.enterViewport) {
-            this.setState({
-                enterViewport: true
-            });
-
-            if (this.props.onImageEnterViewport) {
-                this.props.onImageEnterViewport();
-            }
-        }
-
-        this._tryLoadFullImage();
-
-    };
-
-    _tryLoadFullImage = () => {
-        if (this.state.isFullImageLoaded) {
-            return;
-        }
-
-        if (this.state.isLoadingImage) {
-            return;
-        }
-
+    _loadFullImage = () => {
         this.setState({
             isLoadingImage: true
         });
 
-        this._loadFullImage();
-    };
-
-    _loadFullImage = () => {
         this.props.imageLoader.loadAsync(this.props.imageSrc)
             .then((imageURL) => {
                 this.setState({
@@ -137,19 +104,7 @@ export class ProgressiveImage extends Component<Props, State> {
                 if (this.props.onImageLoadingError) {
                     this.props.onImageLoadingError(imageURL);
                 }
-            })
-    };
-
-    _isInViewport = () => {
-        if (!this._elRef || !this._elRef.current) {
-            return false;
-        }
-
-        const viewportHeight = window.document.documentElement.clientHeight;
-
-        const elViewportOffset = this._elRef.current.getBoundingClientRect();
-        const elViewportY = elViewportOffset.top;
-        return elViewportY <= viewportHeight;
+            });
     };
 
     render() {
