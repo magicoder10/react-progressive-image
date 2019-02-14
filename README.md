@@ -16,27 +16,41 @@ Progressive image loading component for React
 
 ## Usage
 
-1) Import `Progressive Image Component`:
+1) Import `Progressive Image Component`, `BrowserImageLoader`, and `BrowserViewport`:
 
-```javascript
+```typescript
 import {ProgressiveImage} from './components/ProgressiveImage';
+import {BrowserImageLoader} from './loaders/image.loader.broswer';
+import {BrowserViewport} from './viewports/viewport.browser';
+```
+
+2) Initialize Viewport and ImageLoader
+
+```typescript
+const imageLoader = new BrowserImageLoader();
+const viewport = new BrowserViewport();
 ```
 
 2) Add progressive image to your app:
 
-```javascript
- <ProgressiveImage
+```typescript
+<ProgressiveImage
+    viewport={this.viewport}
+    imageLoader={this.imageLoader}
+
     alt={'Test'}
     thumbnailSrc={photoThumbnail}
     imageSrc={photo}
+
     onImageEnterViewport={this.handleImageEnterViewport}
     onImageLeaveViewport={this.handleImageLeaveViewport}
     onImageLoad={this.handleImageLoad}
     onImageLoadingError={this.handleImageLoadingError}
- />
+/>
 ```
 
-3) Replace `photoThumbnail` with the URL of thumbnail and `photo` with the URL of full resolution image.
+3) Replace `photoThumbnail` with the URL of thumbnail and `photo` with the URL of full resolution image. 
+Please remember to update `alt` to improve accessibility.
 
 ## Author
 - **Harry Liu** - *Initial work* - [byliuyang](https://github.com/byliuyang)
