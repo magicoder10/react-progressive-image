@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import styles from './ProgressiveImage.module.scss';
 import {ImageLoader} from '../loaders/image.loader';
-import {Viewport} from '../viewports/viewport';
+import {Viewport, ViewportEventEmitter} from '../viewports/viewport';
 import {filter, tap} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 
@@ -29,6 +29,8 @@ interface State {
 
 export class ProgressiveImage extends Component<Props, State> {
 	readonly _elRef: RefObject<HTMLDivElement>;
+	readonly _eventEmitter: ViewportEventEmitter;
+
 	onEnterViewportSubscription: Subscription;
 	onLeaveViewportSubscription: Subscription;
 
@@ -45,9 +47,9 @@ export class ProgressiveImage extends Component<Props, State> {
 			thumbnailSrc: ''
 		};
 
-		const eventEmitter = this.props.viewport.for(this._elRef);
+		this._eventEmitter = this.props.viewport.for(this._elRef);
 
-		this.onEnterViewportSubscription = eventEmitter
+		this.onEnterViewportSubscription = this._eventEmitter
 			.onEnterViewport()
 			.pipe(
 				tap(this.props.onImageEnterViewport),
@@ -55,7 +57,7 @@ export class ProgressiveImage extends Component<Props, State> {
 			)
 			.subscribe(this._loadFullImage);
 
-		this.onLeaveViewportSubscription = eventEmitter
+		this.onLeaveViewportSubscription = this._eventEmitter
 			.onLeaveViewport()
 			.subscribe(this.props.onImageLeaveViewport);
 	}
@@ -71,13 +73,16 @@ export class ProgressiveImage extends Component<Props, State> {
 
 	tryLoadThumbnail() {
 		if (this.props.thumbnailSrc) {
-			this.props.imageLoader.loadAsync(this.props.thumbnailSrc)
-				.then((imageURL: string) => {
+			const subscription = this.props.imageLoader.loadAsync(this.props.thumbnailSrc)
+				.subscribe((imageUrl: string) => {
 					this.setState({
 						isThumbnailLoaded: true,
-						thumbnailSrc: imageURL
+						thumbnailSrc: imageUrl
 					});
-				})
+
+					this._eventEmitter.emitOnLoad();
+					subscription.unsubscribe();
+				});
 		}
 	}
 
@@ -86,34 +91,40 @@ export class ProgressiveImage extends Component<Props, State> {
 			isLoadingImage: true
 		});
 
-		this.props.imageLoader.loadAsync(this.props.imageSrc)
-			.then((imageURL) => {
-				this.setState({
-					isFullImageLoaded: true,
-					fullImageSrc: imageURL
-				});
+		const subscription = this.props.imageLoader.loadAsync(this.props.imageSrc)
+			.subscribe((imageUrl: string) => {
+					this.setState({
+						isFullImageLoaded: true,
+						fullImageSrc: imageUrl
+					});
 
-				this.setState({
-					isLoadingImage: false
-				});
+					this.setState({
+						isLoadingImage: false
+					});
 
-				if (this.props.onImageLoad) {
-					this.props.onImageLoad();
-				}
-			}, (imageURL) => {
-				if (this.props.onImageLoadingError) {
-					this.props.onImageLoadingError(imageURL);
-				}
-			});
+					if (this.props.onImageLoad) {
+						this.props.onImageLoad();
+					}
+
+					subscription.unsubscribe();
+				},
+				(imageURL: string) => {
+					if (this.props.onImageLoadingError) {
+						this.props.onImageLoadingError(imageURL);
+					}
+
+					subscription.unsubscribe()
+				})
 	};
 
 	render() {
+
 		const {
 			isThumbnailLoaded, thumbnailSrc, isFullImageLoaded, fullImageSrc
 		} = this.state;
 
 		if (!isThumbnailLoaded) {
-			return <div className={styles['progressive-image']}></div>
+			return (<div className={styles['progressive-image']}></div>);
 		}
 
 		return (

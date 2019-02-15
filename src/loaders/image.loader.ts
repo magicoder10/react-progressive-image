@@ -1,3 +1,5 @@
+import {Observable} from 'rxjs';
+
 export interface ImageLoader {
-	loadAsync(imageUrl: string): Promise<string>
+	loadAsync(imageUrl: string): Observable<string>
 }

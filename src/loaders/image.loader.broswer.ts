@@ -1,22 +1,21 @@
 import {ImageLoader} from './image.loader';
+import {Observable} from 'rxjs';
 
 export class BrowserImageLoader implements ImageLoader {
-	loadAsync(imageURL: string): Promise<string> {
-		return new Promise((
-			resolve: ((imageUrl: string) => void),
-			reject: (imageUrl: string) => void
-		) => {
-			const image = new Image();
+	loadAsync(imageUrl: string): Observable<string> {
+		return new Observable(observer => {
+				const image = new Image();
 
-			image.addEventListener('load', () => {
-				resolve(imageURL);
-			});
+				image.addEventListener('load', () => {
+					observer.next(imageUrl);
+				});
 
-			image.addEventListener('error', () => {
-				reject(imageURL);
-			});
+				image.addEventListener('error', () => {
+					observer.error(imageUrl);
+				});
 
-			image.src = imageURL;
-		});
+				image.src = imageUrl;
+			}
+		);
 	}
 }

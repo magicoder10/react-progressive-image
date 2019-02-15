@@ -1,5 +1,5 @@
 import {Viewport, ViewportEventEmitter} from './viewport';
-import {Observable, Subject} from 'rxjs';
+import {merge, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {RefObject} from 'react';
 
@@ -22,19 +22,28 @@ export class BrowserViewport implements Viewport {
 
 	for(el: RefObject<Element>): ViewportEventEmitter {
 
-		const isVisibleObservable = this._onScrollSubject.pipe(
-			map(_ => el && el.current ? isVisible(el.current) : false),
-			distinctUntilChanged()
-		);
+		const onloadSubject = new Subject<void>();
+
+		const isVisibleObservable = merge(
+			onloadSubject,
+			this._onScrollSubject
+		)
+			.pipe(
+				map(_ => el && el.current ? isVisible(el.current) : false),
+				distinctUntilChanged()
+			);
 
 		return {
-			onEnterViewport(): Observable<void> {
+			emitOnLoad: () => {
+				onloadSubject.next();
+			},
+			onEnterViewport: (): Observable<void> => {
 				return isVisibleObservable.pipe(
 					filter(isVisible => isVisible),
 					map(_ => undefined)
 				);
 			},
-			onLeaveViewport(): Observable<void> {
+			onLeaveViewport: (): Observable<void> => {
 				return isVisibleObservable.pipe(
 					filter(isVisible => !isVisible),
 					map(_ => undefined)
