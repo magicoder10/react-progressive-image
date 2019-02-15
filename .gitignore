@@ -27,3 +27,5 @@ yarn-error.log*
 
 # Temporary Env
 react-app-env.d.ts
+
+*_cache

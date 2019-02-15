@@ -11,7 +11,7 @@ export class StubViewport implements Viewport {
 		this.leaveViewportSubject = leaveViewportSubject;
 	}
 
-	for(el: React.RefObject<Element>): ViewportEventEmitter {
+	for(_: React.RefObject<Element>): ViewportEventEmitter {
 
 		return {
 			emitOnLoad: () => {

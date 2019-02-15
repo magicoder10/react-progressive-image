@@ -13,3 +13,5 @@ tdd: build-test
 
 ci-test: build-test
 		docker run -e CI=true image-loader-test
+bundle:
+		yarn rollup -c
