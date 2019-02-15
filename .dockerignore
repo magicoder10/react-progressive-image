@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+
+# Travis
+.travis*
+
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+build
+
+# idea
+.idea
+
+# documentation
+README.md
+screenshots
+
+# misc
+.DS_Store
