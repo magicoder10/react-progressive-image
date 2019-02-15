@@ -1,0 +1,11 @@
+FROM node:10.15.1-alpine
+WORKDIR /usr/src/app
+
+# Install dependencies
+COPY package.json yarn.lock ./
+RUN yarn
+
+ADD . .
+
+EXPOSE 3000
+CMD ["yarn", "start"]

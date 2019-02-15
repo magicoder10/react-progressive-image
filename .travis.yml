@@ -1,0 +1,8 @@
+language: generic
+services:
+  - docker
+before_install:
+  - make build-test
+scripe:
+  - make ci-test
+
