@@ -52,6 +52,36 @@ const viewport = new BrowserViewport();
 3) Replace `photoThumbnail` with the URL of thumbnail and `photo` with the URL of full resolution image. 
 Please remember to update `alt` to improve accessibility.
 
+## Development
+1) Install library dependencies
+
+```
+yarn
+```
+
+2) Start library live re-bundle server
+```
+yarn start
+```
+
+3) Install example dependencies and link library
+
+```
+cd example
+yarn
+```
+
+4) Start live reload web server
+```
+yarn start
+```
+
+## Testing
+### Running unit tests
+```
+yarn test
+```
+
 ## Author
 - **Harry Liu** - *Initial work* - [byliuyang](https://github.com/byliuyang)
 
