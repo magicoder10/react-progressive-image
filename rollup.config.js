@@ -14,7 +14,22 @@ const extensions = [
 const name = 'ImageLoader';
 
 export default {
-    input: './src/lib.ts',
+    input: 'src/index.ts',
+    output: [
+        {
+            file: pkg.main,
+            format: 'cjs',
+            exports: 'named',
+            sourcemap: true
+        },
+        {
+
+            file: pkg.module,
+            format: 'es',
+            exports: 'named',
+            sourcemap: true
+        }
+    ],
     plugins: [
         peerDepsExternal(),
         // Allows node_modules resolution
@@ -25,34 +40,13 @@ export default {
 
         typescript(
             {
-                tsconfig: "tsconfig.bundle.json",
+                rollupCommonJSResolveHack: true,
+                clean: true
             }
         ),
-
-        // // Compile TypeScript/JavaScript files
-        // babel({
-        //     extensions,
-        //     include: ['src/**/*']
-        // }),
 
         postcss({
             modules: true
         })
-    ],
-
-    output: [{
-        file: pkg.main,
-        format: 'cjs',
-    }, {
-        file: pkg.module,
-        format: 'es'
-    }, {
-        file: pkg.browser,
-        format: 'iife',
-        name,
-
-        // https://rollupjs.org/guide/en#output-globals-g-globals
-        globals: {
-        }
-    }]
+    ]
 };

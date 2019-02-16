@@ -4,9 +4,7 @@ import './App.scss';
 import photo from './photo.jpg';
 import photoThumbnail from './photo-thumbnail.jpg';
 
-import {ProgressiveImage} from './components/ProgressiveImage';
-import {BrowserImageLoader} from './loaders/image.loader.broswer';
-import {BrowserViewport} from './viewports/viewport.browser';
+import {ProgressiveImage, BrowserImageLoader, BrowserViewport} from 'image-loader';
 
 class App extends Component {
 	imageLoader = new BrowserImageLoader();

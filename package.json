@@ -1,15 +1,17 @@
 {
 	"name": "image-loader",
 	"version": "0.1.0",
-	"private": true,
-	"main": "build/index.js",
-	"module": "build/index.es.js",
-	"browser": "build/index.browser.js",
+	"author": "byliuyang",
+	"license": "MIT",
+	"repository": "byliuyang/image-loader",
+	"main": "dist/index.js",
+	"module": "dist/index.es.js",
+	"jsnext:main": "dist/index.es.js",
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"test": "CI=true react-scripts test",
+		"tdd": "react-scripts test",
+		"test:watch": "react-scripts-ts test",
+		"build": "rollup -c"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -20,12 +22,6 @@
 		"not ie <= 11",
 		"not op_mini all"
 	],
-	"dependencies": {
-		"classnames": "^2.2.6",
-		"react": "^16.8.1",
-		"react-dom": "^16.8.1",
-		"rxjs": "^6.4.0"
-	},
 	"peerDependencies": {
 		"classnames": "^2.2.6",
 		"react": "^16.8.1",
@@ -37,7 +33,6 @@
 		"@types/enzyme": "^3.1.18",
 		"@types/enzyme-adapter-react-16": "^1.0.4",
 		"@types/jest": "^24.0.4",
-		"@types/node": "^11.9.4",
 		"@types/react": "^16.8.3",
 		"@types/react-dom": "^16.8.1",
 		"enzyme": "^3.8.0",
@@ -51,5 +46,8 @@
 		"rollup-plugin-postcss": "^2.0.3",
 		"rollup-plugin-typescript2": "^0.19.2",
 		"typescript": "^3.3.3"
-	}
+	},
+	"files": [
+		"dist"
+	]
 }
