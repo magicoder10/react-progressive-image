@@ -2959,9 +2959,9 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   integrity sha512-DtUeseGk9/GBW0hl0vVPpU22iHL6YB5BUX7ml1hB+GMpo0NX5G4voX3kdWiMSEguFtcW3Vh3djqNF4aIe6ne0A==
 
 cssstyle@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-1.1.1.tgz#18b038a9c44d65f7a8e428a653b9f6fe42faf5fb"
-  integrity sha512-364AI1l/M5TYcFH83JnOH/pSqgaNnKmYgKrm0didZMGKWjQB60dymwWy1rKUgL3J1ffdq9xVi2yGLHdSjjSNog==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-1.2.0.tgz#fc1e4df631374b4a3f12a1fc8278217d5a718ec5"
+  integrity sha512-CYz0dquY+OlKR9ueeUsB94aXWEopcvnTLVt7efxKAG3wWOEWwLYrI183/VEGSsns7ZUjDCEoqJcbVe9xcp6ldA==
   dependencies:
     cssom "0.3.x"
 
