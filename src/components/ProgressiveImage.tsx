@@ -1,4 +1,4 @@
-import React, {createRef, Component, RefObject} from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import styles from './ProgressiveImage.module.scss';
@@ -27,8 +27,8 @@ interface State {
 	thumbnailSrc?: string
 }
 
-export class ProgressiveImage extends Component<Props, State> {
-	readonly _elRef: RefObject<HTMLDivElement>;
+export class ProgressiveImage extends React.Component<Props, State> {
+	readonly _elRef: React.RefObject<HTMLDivElement>;
 	readonly _eventEmitter: ViewportEventEmitter;
 
 	onEnterViewportSubscription: Subscription;
@@ -37,7 +37,7 @@ export class ProgressiveImage extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this._elRef = createRef();
+		this._elRef = React.createRef();
 
 		this.state = {
 			isThumbnailLoaded: false,

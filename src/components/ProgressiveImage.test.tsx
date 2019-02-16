@@ -1,5 +1,5 @@
 import {configure, shallow} from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import {Subject} from 'rxjs';
 
 
