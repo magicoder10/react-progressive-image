@@ -10,12 +10,14 @@ Dockerfile*
 
 # dependencies
 node_modules
+example
 
 # testing
 coverage
 
 # production
 build
+dist
 
 # idea
 .idea
