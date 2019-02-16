@@ -1,6 +1,8 @@
 # React Progressive Image
 Progressive image loading component for React
 
+[![Build Status](https://travis-ci.com/byliuyang/react-progressive-image.svg?branch=master)](https://travis-ci.com/byliuyang/react-progressive-image)
+
 ## Preview
 ![Progressive Image Loading](screenshots/1.gif)
 
