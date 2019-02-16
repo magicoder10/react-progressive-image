@@ -18,6 +18,12 @@ Progressive image loading component for React
 
 ## Usage
 
+Install npm package
+
+```
+yarn add @time4hacks/react-progressive-image
+```
+
 Import `Progressive Image Component`, `BrowserImageLoader`, and `BrowserViewport`:
 
 ```typescript
