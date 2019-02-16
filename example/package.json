@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "rxjs": "^6.4.0",
+    "image-loader": "link:.."
+  },
+  "devDependencies": {
+    "react-scripts": "2.1.5",
     "@types/jest": "^24.0.5",
     "@types/node": "^11.9.4",
     "@types/react": "^16.8.3",
     "@types/react-dom": "^16.8.1",
-    "classnames": "^2.2.6",
-    "image-loader": "link:..",
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
-    "rxjs": "^6.4.0",
     "typescript": "^3.3.3"
-  },
-  "devDependencies": {
-    "react-scripts": "2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
