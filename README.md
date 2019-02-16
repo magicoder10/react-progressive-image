@@ -19,9 +19,7 @@ Progressive image loading component for React
 1) Import `Progressive Image Component`, `BrowserImageLoader`, and `BrowserViewport`:
 
 ```typescript
-import {ProgressiveImage} from './components/ProgressiveImage';
-import {BrowserImageLoader} from './loaders/image.loader.broswer';
-import {BrowserViewport} from './viewports/viewport.browser';
+import {ProgressiveImage, BrowserImageLoader, BrowserViewport} from '@time4hacks/react-image-loader';
 ```
 
 2) Initialize Viewport and ImageLoader
